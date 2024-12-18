@@ -1,0 +1,98 @@
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.clear {
+    clear: both;
+
+
+}
+body{
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+    background-color: #fff;
+    letter-spacing: 1px;
+}
+html {
+    font-size: 18px;
+    /* 1rem = 18px */
+    /* Nếu không khai báo font-size thì 1rem tự động là 16px */
+}
+button {
+    background-color: #ee6c4d;
+    border: 1px solid #293241;
+    border-radius: 7px;
+    color: black;
+    padding: 12px 25px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all .5s;
+}
+button:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+h2 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* INFORMATION */
+
+.information {
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    padding: 100px;
+}
+.information .left__side {
+    grid-column: 1 / span 2;
+}
+.information .right__side {
+    grid-column: 3 / span 2;
+}
+
+.information .left__side .text__info{
+    margin: 30px 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #293241;
+}
+.information .left__side .list__info {
+    line-height: 32px;
+    letter-spacing: 0.05rem;
+}
+.information .left__side .list__info a {
+    color: #293241;
+    font-weight: 500;
+}
+.information .left__side .list__info a i {
+    color: #ee6c4d;
+    opacity: 0;
+}
+.information .left__side .list__info a:hover i {
+    opacity: 1;
+}
+.information .left__side .list__info a:hover {
+    text-decoration: underline;
+}
+
+.information .right__side .text__intro {
+    margin: 30px 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+.information .right__side .title__intro h2 {
+    display: inline;
+}

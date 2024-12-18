@@ -1,0 +1,33 @@
+table {
+    border-collapse: collapse;
+    border-bottom: 1px solid gray;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    width: 80%;
+}
+
+th {
+    border-bottom: 1px solid gray;
+    background: none repeat scroll 0 0 #ee6c4d;
+    padding: 10px;
+    color: #fff;
+}
+
+tr {
+    border-top: 1px solid gray;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background: #ffffff;
+}
+
+tr:nth-child(odd) {
+    background: #bbbbbb;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}

@@ -1,0 +1,83 @@
+:root {
+    --main-color : #ee6c4d;
+    --sub-main-color: #293241;
+}
+
+.policy-content.active {
+    display: block;
+}
+
+.policy {
+    padding: 110px 0 0;
+    margin: 0 auto;
+    display: flex;
+    width: 90%;
+    border-bottom: 2px solid var(--main-color);
+}
+
+.policy-directory {
+    padding: 12px 24px;
+    background: #fff;
+    width: 20%;
+    flex-shrink: 0;
+}
+
+.policy-content {
+    display: none;
+    margin-left: 24px;
+    flex-grow: 1;
+}
+
+.policy-title {
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #000;
+    border-bottom: 2px solid var(--main-color);
+}
+
+.policy-item {
+    margin-left: 12px;
+    font-size: 1.8rem;
+    line-height: 2;
+}
+
+.policy-item:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.policy-content .desc {
+    padding-left: 24px;
+}
+
+.policy-content .title {
+    margin-bottom: 24px;
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.policy-content .desc-title {
+    margin-bottom: 12px;
+    font-size: 2.4rem;
+}
+
+.policy-content .desc-list,
+.policy-content .desc-list p {
+    font-size: 1.8rem;
+    line-height: 1.6;
+}
+
+.policy-content .desc-list {
+    margin: 0 0 32px 24px;
+}
+
+.policy-content .desc-item {
+    margin-left: 32px;
+    list-style: disc;
+}
+
+.policy-content .desc-item li{
+    line-height: 1.6;
+}

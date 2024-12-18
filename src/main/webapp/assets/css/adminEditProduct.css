@@ -1,0 +1,284 @@
+:root {
+    --main-color : #ee6c4d;
+    --sub-main-color: #293241;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+select {
+    font-size: 2.4rem;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #000;
+    width: 100%;
+}
+
+.container {
+    padding: 48px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.btn-admin {
+    margin: 24px 12px;
+    min-width: 120px;
+}
+
+button {
+    color: #fff;
+}
+
+.btn-grp {
+    display: flex;
+}
+
+.title {
+    background: var(--main-color);
+    color: #fff;
+    padding: 24px 0;
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.product-title {
+    margin-right: 12px;
+    min-width: 150px;
+    font-weight: 600;
+    font-size: 2rem;
+}
+.user-title{
+    margin-right: 12px;
+    min-width: 150px;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.product-sub,
+.user-sub-input
+{
+    font-size: 2.4rem;
+}
+
+.product-wraper
+{
+    /* width: 100%; */
+    display: flex;
+    gap: 24px;
+}
+
+.user-wraper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.product-wraper .product {
+    /* border-bottom: 1px solid #ccc; */
+}
+
+.product {
+    display: inline-flex;
+}
+
+.product .product-sub {
+    border: none;
+    border-bottom: 1px solid #000;
+    width: 100%;
+}
+
+.user-sub {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 14px;
+    height: 44px;
+    border-bottom: 1px solid;
+}
+
+.user-sub-content {
+    font-size: 2.4rem;
+}
+
+
+.left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.right {
+    position: relative;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.product-header,
+.user-header
+ {
+    text-align: center;
+    font-size: 2.6rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.left label {
+    display: inline-block;
+    margin: 12px 0;
+}
+
+.left input {/* padding: 6px 4px; */}
+
+
+
+.product-desc {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-desc .desc-area {
+    resize: none;
+    font-size: inherit;
+    min-height: 200px;
+}
+
+.list-img {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+.img-product {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.item {
+    position: relative;
+}
+
+.item .delete-ic {
+    color: var(--main-color);
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2.4rem;
+}
+
+.item .delete-ic:hover {
+    color: var(--sub-main-color);
+    cursor: pointer;
+}
+
+.back-cta {
+    font-weight: 600;
+    display: inline-block;
+    color: var(--sub-main-color);
+    padding: 12px;
+}
+
+.dialog,
+.dialog-category,
+.dialog-brand {
+    position: relative;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 1000;
+}
+
+.close-btn,
+.close-btn-brand,
+.close-btn-cate {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.dialog-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dialog input {
+    margin-left: 2px;
+    padding: 12px;
+    border: 1px solid #ccc;
+}
+
+.dialog-title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.dialog label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.mgr-20 {
+    margin-right: 20px!important;
+}
+
+#imageForm {
+    flex-direction: column;
+    gap: 12px;
+}
+
+#imageForm input {
+    padding: 12px;
+}
+
+.list-img .confirm-form {
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    min-width: 320px;
+    min-height: 120px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 24px;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.list-img .confirm-form button {
+    min-width: 120px;
+    margin: 12px;
+}
+
+.form-title {
+    font-size: 2.4rem;
+}
+
+.important {
+    color: red;
+}
+
+#addImageForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

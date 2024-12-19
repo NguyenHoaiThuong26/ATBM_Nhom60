@@ -4,6 +4,8 @@ import bean.Product;
 import bean.User;
 import db.JDBIConnector;
 
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -172,10 +174,45 @@ public class UserDAO {
         );
     }
 
+    // Lưu public key
+    public static void savePuKey(int userId, String publicKey) {
+        JDBIConnector.me().withHandle(handle -> {
+            return handle.createUpdate(
+                            "INSERT INTO public_keys (id_user, public_key, start_time, expired_time, is_valid) " +
+                                    "VALUES (:id_user, :public_key, :start_time, NULL, :is_valid)"
+                    )
+                    .bind("id_user", userId)
+                    .bind("public_key", publicKey)
+                    .bind("start_time", java.time.LocalDateTime.now())
+                    .bind("is_valid", 1)
+                    .execute();
+        });
+        System.out.println("Public key saved successfully.");
+    }
+
+    // Cập nhật thời gian hết hạn của key
+    public static void updateExpiredKey(int userId) {
+        JDBIConnector.me().withHandle(handle -> {
+            return handle.createUpdate(
+                            "UPDATE public_keys " +
+                                    "SET expired_time = :expired_time, is_valid = 0 " +
+                                    "WHERE id_user = :id_user " +
+                                    "ORDER BY id DESC " +
+                                    "LIMIT 1"
+                    )
+                    .bind("expired_time", java.time.LocalDateTime.now())
+                    .bind("id_user", userId)
+                    .execute();
+        });
+        System.out.println("Public key expired successfully.");
+    }
+
+
     public static void main(String[] args) {
 //        changePassword("cunoccho0601@gmail.com", "hahaha");
 
         changeInfoUserWithRole(5, 0);
+//        savePuKey(13, "hello");
 
     }
 }

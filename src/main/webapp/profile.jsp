@@ -119,7 +119,7 @@
         </div>
         <!-- .dLDnti -->
         <jsp:include page="sidebar-profile.jsp" />
-        <form action="./profile" method="post" class="form">
+
             <div id="manage-account" class="account active">
                 <div class="account_title">Thông tin tài khoản</div>
                 <!-- Thông báo -->
@@ -131,6 +131,7 @@
                 <%--                            </div>--%>
                 <%--                        </div>--%>
                 <%--                    </div>--%>
+                <form action="./profile" method="post" class="form">
                 <div class="style_info">
                     <div class="info">
                         <div class="info-left">
@@ -332,14 +333,41 @@
                         </div>
                     </div>
                 </div>
+                </form>
+
+                <div class="key-container">
+                    <span class="info-title">Bảo mật khóa</span>
+                    <div class="info-key">
+                        <div class="list-item">
+                            <div>
+                                <i class="fa-solid fa-key icon-profile"></i>
+                                <span>Thiết lập khóa</span>
+                            </div>
+                            <div class="status">
+                                <span></span>
+                                <form id="generateKeyForm"  action="./generate-key" method="POST">
+                                    <button type="submit" class="button active account-password" id="genkeyBtn">
+                                        Tạo khóa
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-        </form>
+
+
 
     </div>
 </div>
 <!-- MAIN JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/profile.js"></script>
+
+
+
 </body>
 
 </html>

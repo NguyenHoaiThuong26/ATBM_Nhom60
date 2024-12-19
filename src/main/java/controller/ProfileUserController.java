@@ -28,6 +28,10 @@ public class ProfileUserController extends HttpServlet {
 
         HttpSession session = req.getSession();
         User u = (User) session.getAttribute("auth");
+        if (u == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
         int userId = u.getId();
 
         email = req.getParameter("email");

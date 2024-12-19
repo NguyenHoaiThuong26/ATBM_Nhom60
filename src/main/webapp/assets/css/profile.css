@@ -193,10 +193,10 @@ h2 {
 
 .style_info .info-left {
     width: 55%;
-    padding: 16px 24px 16px 16px;
+    padding: 16px 24px 0 16px;
 }
 
-.style_info .info-title {
+.info-title {
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
@@ -209,9 +209,17 @@ h2 {
     margin: 16px 0px;
 }
 
-.style_info .info-right {
+.style_info .info-right,
+.info-right {
     width: calc(100% - 55%);
     padding: 16px 16px 16px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-key {
+    width: calc(100% - 55%);
+    /*padding: 16px 16px 16px 24px;*/
     display: flex;
     flex-direction: column;
 }
@@ -486,7 +494,7 @@ h2 {
     border: none;
 }
 
-.info-contact .list-item {
+.list-item{
     border-top: 1px solid rgb(248, 248, 248);
     display: flex;
     -webkit-box-align: center;
@@ -501,7 +509,7 @@ h2 {
     display: flex;
 }
 
-.info-contact .list-item .icon-profile {
+.list-item .icon-profile {
     width: 24px;
     height: 24px;
     vertical-align: bottom;
@@ -522,13 +530,13 @@ h2 {
     flex-direction: column;
 }
 
-.info-contact .list-item span {
+.list-item span{
     font-size: 14px;
     line-height: 20px;
     color: rgb(56, 56, 61);
 }
 
-.info-contact .list-item .status {
+.list-item .status {
     color: rgb(27, 168, 255);
     flex: 1 1 0%;
     -webkit-box-pack: justify;
@@ -537,12 +545,21 @@ h2 {
 
 }
 
-.info-contact .list-item button.active {
+.list-item button.active {
     border: 1px solid #ee6c4d;
     background-color: rgb(255, 255, 255);
 }
 
-.info-contact .list-item button {
+.list-item button.active:hover {
+    background-color:#ee6c4d;
+    color: #FFFFFF;
+}
+
+.key-container {
+    margin-left: 36px;
+}
+
+.list-item button {
     border: 0px;
     height: 28px;
     border-radius: 4px;

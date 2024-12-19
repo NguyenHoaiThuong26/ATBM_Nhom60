@@ -66,6 +66,11 @@ public class UserService {
         return email.matches("^[A-Za-z\\._\\-0-9]*[@][A-Za-z]*[\\.][a-z]{2,4}$");
     }
 
+    // Lưu public key
+    public static void savePuKey(int userId, String publicKey) {
+        UserDAO.savePuKey(userId, publicKey);
+    }
+
 
     public static void main(String[] args) {
         List<User> users = JDBIConnector.me().withHandle(handle ->

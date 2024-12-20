@@ -71,6 +71,10 @@ public class UserService {
         UserDAO.savePuKey(userId, publicKey);
     }
 
+    public static boolean hasPublicKey(int userId) {
+        return UserDAO.hasPublicKey(userId);
+    }
+
 
     public static void main(String[] args) {
         List<User> users = JDBIConnector.me().withHandle(handle ->

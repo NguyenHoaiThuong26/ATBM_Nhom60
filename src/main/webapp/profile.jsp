@@ -345,7 +345,7 @@
                             </div>
                             <div class="status">
                                 <span></span>
-                                <form id="generateKeyForm"  action="./generate-key" method="POST">
+                                <form id="generateKeyForm" action="./generate-key" method="post">
                                     <button type="submit" class="button active account-password" id="genkeyBtn">
                                         Tạo khóa
                                     </button>
@@ -354,6 +354,15 @@
                         </div>
                     </div>
                 </div>
+
+
+                <c:if test="${not empty message}">
+                    <p class="key-alert <c:out value="${message.contains('thành công') ? 'success' : 'error'}" />" id="alertMessage">
+                            ${message}
+                    </p>
+                </c:if>
+
+
 
 
             </div>
@@ -366,7 +375,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/profile.js"></script>
 
+<script>
+    // Tự động ẩn thông báo sau 5 giây
+    setTimeout(function() {
+        const alertMessage = document.getElementById('alertMessage');
+        if (alertMessage) {
+            alertMessage.style.transition = "opacity 0.5s";
+            alertMessage.style.opacity = 0;
 
+            // Xóa phần tử sau khi hiệu ứng hoàn thành
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 500); // Chờ hiệu ứng mờ hoàn tất
+        }
+    }, 5000); // Hiển thị trong 5 giây
+</script>
 
 </body>
 

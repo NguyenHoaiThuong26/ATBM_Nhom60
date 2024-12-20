@@ -67,7 +67,8 @@ h2 {
     width: 100%;
     margin: 0px auto 20px;
     flex-wrap: wrap;
-    padding-top: 110px;
+    padding-top: 86px;
+    height: 800px;
 }
 
 .profile-return-content {
@@ -747,4 +748,25 @@ h2 {
     display: flex;
     align-items: center;
     height: 70px;
+}
+
+
+.key-alert {
+    margin-top: 15px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.key-alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.key-alert.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
 }

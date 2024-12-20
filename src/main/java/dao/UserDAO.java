@@ -97,6 +97,7 @@ public class UserDAO {
         );
     }
 
+
     public User getUserById(String id) {
         Optional<User> user = JDBIConnector.me().withHandle((handle ->
                 handle.createQuery("select * from users where id = ?")
@@ -188,6 +189,18 @@ public class UserDAO {
                     .execute();
         });
         System.out.println("Public key saved successfully.");
+    }
+
+    public static boolean hasPublicKey(int userId) {
+        boolean hasKey = JDBIConnector.me().withHandle(handle -> {
+            return handle.createQuery(
+                            "SELECT COUNT(*) FROM public_keys WHERE id_user = :id_user AND is_valid = 1"
+                    )
+                    .bind("id_user", userId)
+                    .mapTo(Long.class)
+                    .one() > 0;
+        });
+        return hasKey;
     }
 
     // Cập nhật thời gian hết hạn của key

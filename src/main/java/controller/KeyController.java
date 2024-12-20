@@ -1,6 +1,7 @@
 package controller;
 
 import bean.User;
+import mail.MailService;
 import service.UserService;
 import util.DigitalSignature;
 import javax.servlet.ServletException;
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+
 
 @WebServlet(name = "KeyController", value = "/generate-key")
 public class KeyController extends HttpServlet {
@@ -24,6 +25,13 @@ public class KeyController extends HttpServlet {
             User u = (User) session.getAttribute("auth");
             int userId = u.getId();
 
+            // Kiểm tra xem người dùng đã có khóa chưa
+            if (UserService.hasPublicKey(userId)) {
+                req.setAttribute("message", "Bạn đã có khóa riêng. Không cần tạo khóa mới.");
+                req.getRequestDispatcher("profile.jsp").forward(req, resp);
+                return;
+            }
+
             // Tạo cặp khóa RSA
             KeyPair keyPair = DigitalSignature.generateKeyPair(2048);
             PublicKey publicKey = keyPair.getPublic();
@@ -33,15 +41,28 @@ public class KeyController extends HttpServlet {
             String publicKeyBase64 = DigitalSignature.exportKey(publicKey);
             UserService.savePuKey(userId, publicKeyBase64);
 
-            // Xuất private key ra file .txt
+            // Xuất private key dạng base64
             String privateKeyBase64 = DigitalSignature.exportKey(privateKey);
 
-            // Gửi file private key về cho người dùng
-            resp.setContentType("text/plain");
-            resp.setHeader("Content-Disposition", "attachment; filename=\"private_key.txt\"");
-            PrintWriter out = resp.getWriter();
-            out.print(privateKeyBase64);
-            out.flush();
+            // Tạo mail
+            String emailSub = "Private Key của bạn";
+            String emailMessage = "<p>Gửi " + u.getUsername() + ",</p>"
+                    + "<p>Đây là private key của bạn. Vui lòng xem file được đính kèm</p>"
+                    + "<p>Cảm ơn vì đã sử dụng dịch vụ của chúng tôi</p>";
+            String fileName = "private_key.txt";
+
+            if (MailService.sendEmailWithAttachment(u.getEmail(), emailSub, emailMessage, fileName, privateKeyBase64)) {
+                // Gửi thông điệp thành công đến JSP
+                req.setAttribute("message", "Khóa đã được tạo thành công, bạn hãy kiểm tra email!");
+
+            } else {
+                req.setAttribute("message", "Có lỗi xảy ra khi gửi email. Vui lòng thử lại sau!");
+            }
+
+            req.getRequestDispatcher("profile.jsp").forward(req, resp);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi tạo cặp khóa.");

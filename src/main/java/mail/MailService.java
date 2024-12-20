@@ -1,18 +1,18 @@
 package mail;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
-
-import javax.activation.DataHandler;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+
+import javax.activation.MailcapCommandMap;
+import javax.activation.CommandMap;
 
 public class MailService {
     static Properties props = new Properties();
@@ -24,72 +24,17 @@ public class MailService {
         props.put("mail.smtp.port", MailProperties.port);
     }
 
-    public static boolean send(String to, String subject, String mes) {
-        try {
-            Session session = Session.getInstance(props,
-                    new Authenticator() {
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(MailProperties.username, MailProperties.password);
-                        }
-                    });
-            Message message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(MailProperties.username, "WEB BAN HANG"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
-            message.setSubject(subject);
-            message.setText(mes);
-            Transport.send(message);
-            return true;
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            return false;
-        }
+    static {
+        MailcapCommandMap mailcap = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+        mailcap.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
+        mailcap.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+        mailcap.addMailcap("application/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+        mailcap.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+        mailcap.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+        CommandMap.setDefaultCommandMap(mailcap);
     }
 
-
-//    public static void sendEmailWithAttachment(String to, String subject, String message, File attachment) {
-//        javax.mail.Session session_send = javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
-//            @Override
-//            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-//                return new javax.mail.PasswordAuthentication(MailProperties.username, MailProperties.password);
-//            }
-//        });
-//
-//        try {
-//            javax.mail.internet.MimeMessage mimeMessage = new javax.mail.internet.MimeMessage(session_send);
-//            mimeMessage.setFrom(new javax.mail.internet.InternetAddress(MailProperties.username, "WEB BAN HANG"));
-//            mimeMessage.addRecipient(javax.mail.Message.RecipientType.TO, new javax.mail.internet.InternetAddress(to));
-//            mimeMessage.setSubject(subject, "UTF-8");
-//
-//            // Tạo phần nội dung email
-//            MimeBodyPart messageBodyPart = new MimeBodyPart();
-//            messageBodyPart.setContent(message, "text/html; charset=utf-8");
-//
-//            // Tạo phần đính kèm (nếu có)
-//            javax.mail.Multipart multipart = new MimeMultipart();
-//            multipart.addBodyPart(messageBodyPart);
-//
-//            if (attachment != null && attachment.exists()) {
-//                MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-//                attachmentBodyPart.attachFile(attachment);
-//                multipart.addBodyPart(attachmentBodyPart);
-//            }
-//
-//            // Thiết lập nội dung email
-//            mimeMessage.setContent(multipart);
-//
-//            // Gửi email
-//            javax.mail.Transport.send(mimeMessage);
-//            System.out.println("Email đã được gửi thành công!");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Gửi email thất bại!");
-//        }
-//    }
-
-
-    public static void sendEmailWithAttachment(String to, String subject, String message, String fileName, String fileContent) {
+    public static boolean send(String to, String subject, String mes) {
         javax.mail.Session session_send = javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
@@ -97,14 +42,52 @@ public class MailService {
             }
         });
 
-        // Tạo file mới với nội dung được truyền vào
-        File tempFile = new File(fileName);
+        try {
+            javax.mail.internet.MimeMessage mimeMessage = new javax.mail.internet.MimeMessage(session_send);
+            mimeMessage.setFrom(new javax.mail.internet.InternetAddress(MailProperties.username, "WEB BAN HANG"));
+            mimeMessage.addRecipient(javax.mail.Message.RecipientType.TO, new javax.mail.internet.InternetAddress(to));
+            mimeMessage.setSubject(subject, "UTF-8");
+
+            // Tạo phần nội dung email
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(mes, "text/html; charset=utf-8");
+
+            // Tạo multipart chứa nội dung email
+            javax.mail.Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            // Thiết lập nội dung email
+            mimeMessage.setContent(multipart);
+
+            // Gửi email
+            Transport.send(mimeMessage);
+            System.out.println("Email đã được gửi thành công!");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Gửi email thất bại!");
+            return false;
+        }
+    }
+
+    public static boolean sendEmailWithAttachment(String to, String subject, String message, String fileName, String fileContent) {
+        javax.mail.Session session_send = javax.mail.Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new javax.mail.PasswordAuthentication(MailProperties.username, MailProperties.password);
+            }
+        });
+
+        // Tạo file tạm với đường dẫn tuyệt đối
+        String absolutePath = System.getProperty("java.io.tmpdir") + File.separator + fileName;
+        File tempFile = new File(absolutePath);
+
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write(fileContent); // Ghi nội dung vào file
+            writer.write(fileContent);
             writer.flush();
         } catch (IOException e) {
             System.out.println("Lỗi khi tạo file: " + e.getMessage());
-            return;
+            return false;
         }
 
         try {
@@ -130,11 +113,13 @@ public class MailService {
             mimeMessage.setContent(multipart);
 
             // Gửi email
-            javax.mail.Transport.send(mimeMessage);
+            Transport.send(mimeMessage);
             System.out.println("Email đã được gửi thành công với file đính kèm!");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Gửi email thất bại!");
+            return false;
         } finally {
             // Xóa file tạm sau khi gửi email
             if (tempFile.exists()) {
@@ -143,18 +128,8 @@ public class MailService {
         }
     }
 
-
-
-
-
     public static void main(String[] args) {
         sendEmailWithAttachment("21130559@st.hcmuaf.edu.vn", "Private key nè",
                 "Vui lòng kiểm tra file đính kèm để nhận private key của bạn.", "private_key.txt", "đây là private key");
     }
-
-
-
-
-
-
 }

@@ -3,6 +3,7 @@ package dao;
 import bean.Product;
 import bean.User;
 import db.JDBIConnector;
+import util.Encode;
 
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
@@ -191,16 +192,32 @@ public class UserDAO {
         System.out.println("Public key saved successfully.");
     }
 
-    public static boolean hasPublicKey(int userId) {
-        boolean hasKey = JDBIConnector.me().withHandle(handle -> {
-            return handle.createQuery(
+    public static boolean canCreateNewKey(int userId) {
+        // Kiểm tra trạng thái của khóa
+        return JDBIConnector.me().withHandle(handle -> {
+            Long validKeyCount = handle.createQuery(
                             "SELECT COUNT(*) FROM public_keys WHERE id_user = :id_user AND is_valid = 1"
                     )
                     .bind("id_user", userId)
                     .mapTo(Long.class)
-                    .one() > 0;
+                    .one();
+
+            // Nếu không có khóa hợp lệ nào, cho phép tạo khóa mới
+            return validKeyCount == 0;
         });
-        return hasKey;
+    }
+
+    public static boolean hasPublicKey(int userId) {
+        return JDBIConnector.me().withHandle(handle -> {
+            Long validKeyCount = handle.createQuery(
+                            "SELECT COUNT(*) FROM public_keys WHERE id_user = :id_user AND is_valid = 1"
+                    )
+                    .bind("id_user", userId)
+                    .mapTo(Long.class)
+                    .one();
+
+            return validKeyCount > 0;
+        });
     }
 
     // Cập nhật thời gian hết hạn của key
@@ -218,6 +235,19 @@ public class UserDAO {
                     .execute();
         });
         System.out.println("Public key expired successfully.");
+    }
+
+    public static boolean verifyPassword(int userId, String password) {
+        return JDBIConnector.me().withHandle(handle -> {
+            String storedPassword = handle.createQuery(
+                            "SELECT password FROM users WHERE id = :userId"
+                    )
+                    .bind("userId", userId)
+                    .mapTo(String.class)
+                    .one();
+
+            return storedPassword.equals(Encode.toSHA1(password));
+        });
     }
 
 

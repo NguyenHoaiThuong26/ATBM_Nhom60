@@ -26,8 +26,8 @@ public class KeyController extends HttpServlet {
             int userId = u.getId();
 
             // Kiểm tra xem người dùng đã có khóa chưa
-            if (UserService.hasPublicKey(userId)) {
-                req.setAttribute("message", "Bạn đã có khóa riêng. Không cần tạo khóa mới.");
+            if (!UserService.canCreateNewKey(userId)) {
+                req.setAttribute("message", "Bạn đã có khóa riêng. Không được tạo khóa mới!");
                 req.getRequestDispatcher("profile.jsp").forward(req, resp);
                 return;
             }

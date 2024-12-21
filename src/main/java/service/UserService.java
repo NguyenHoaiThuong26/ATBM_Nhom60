@@ -71,8 +71,20 @@ public class UserService {
         UserDAO.savePuKey(userId, publicKey);
     }
 
+    public static boolean canCreateNewKey(int userId) {
+        return UserDAO.canCreateNewKey(userId);
+    }
+
     public static boolean hasPublicKey(int userId) {
         return UserDAO.hasPublicKey(userId);
+    }
+
+    public static boolean verifyPassword(int userId, String password) {
+        return UserDAO.verifyPassword(userId, password);
+    }
+
+    public static void updateExpiredKey(int userId) {
+        UserDAO.updateExpiredKey(userId);
     }
 
 

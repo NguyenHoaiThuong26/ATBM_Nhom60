@@ -313,6 +313,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <span class="info-title">Bảo mật</span>
                             <div class="info-contact">
                                 <div class="list-item">
@@ -335,25 +337,61 @@
                 </div>
                 </form>
 
-                <div class="key-container">
-                    <span class="info-title">Bảo mật khóa</span>
-                    <div class="info-key">
-                        <div class="list-item">
-                            <div>
-                                <i class="fa-solid fa-key icon-profile"></i>
-                                <span>Thiết lập khóa</span>
-                            </div>
-                            <div class="status">
-                                <span></span>
-                                <form id="generateKeyForm" action="./generate-key" method="post">
-                                    <button type="submit" class="button active account-password" id="genkeyBtn">
-                                        Tạo khóa
-                                    </button>
-                                </form>
+                <div class="info">
+                    <div class="key-container info-left">
+                        <span class="info-title">Bảo mật khóa</span>
+                        <div class="info-key">
+                            <div class="list-item">
+                                <div>
+                                    <i class="fa-solid fa-key icon-profile"></i>
+                                    <span>Thiết lập khóa</span>
+                                </div>
+                                <div class="status">
+                                    <span></span>
+                                    <form id="generateKeyForm" action="./generate-key" method="post">
+                                        <button type="submit" class="button active account-password" id="genkeyBtn">
+                                            Tạo khóa
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="key-container info-right">
+                        <span class="info-title">Lộ khóa</span>
+                        <div class="info-key">
+                            <div class="list-item">
+                                <div>
+                                    <i class="fa-solid fa-shield-halved icon-profile"></i>
+                                    <span>Report khi bị lộ khóa</span>
+                                </div>
+                                <div class="status">
+                                    <span></span>
+                                    <button type="submit" class="button active account-password" id="reportKeyBtn">
+                                        Report
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Verify mật khẩu -->
+                    <div id="passwordModal" class="verifyPassword" style="display: none;">
+                        <div class="verifyPassword-content">
+                            <span class="verifyPassword-title">Xác thực</span>
+                            <form id="passwordForm" action="./leak-key" method="post">
+                                <p style="font-size: 1.6rem; margin-top: 50px">Vui lòng nhập mật khẩu của bạn để xác thực:</p>
+                                <input type="password" name="password" placeholder="Nhập mật khẩu" required class="verifyPassword-input">
+                                <div class="verifyPassword-actions">
+                                    <button type="submit" class="button active verifyPasswordButton">Xác nhận</button>
+                                    <button type="button" class="button cancelPasswordButton" id="cancelVerifyPasswordBtn">Hủy</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+
 
 
                 <c:if test="${not empty message}">
@@ -376,19 +414,18 @@
 <script src="js/profile.js"></script>
 
 <script>
-    // Tự động ẩn thông báo sau 5 giây
     setTimeout(function() {
         const alertMessage = document.getElementById('alertMessage');
         if (alertMessage) {
             alertMessage.style.transition = "opacity 0.5s";
             alertMessage.style.opacity = 0;
 
-            // Xóa phần tử sau khi hiệu ứng hoàn thành
+
             setTimeout(() => {
                 alertMessage.style.display = 'none';
-            }, 500); // Chờ hiệu ứng mờ hoàn tất
+            }, 500);
         }
-    }, 5000); // Hiển thị trong 5 giây
+    }, 3000);
 </script>
 
 </body>

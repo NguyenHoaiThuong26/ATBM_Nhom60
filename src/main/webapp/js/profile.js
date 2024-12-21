@@ -11,6 +11,15 @@ document.getElementById("updatePasswordLink").addEventListener("click", function
     window.location.href = "./resetPassword.jsp";
 });
 
+document.getElementById('reportKeyBtn').addEventListener('click', function () {
+    document.getElementById('passwordModal').style.display = 'flex';
+});
+
+document.getElementById('cancelVerifyPasswordBtn').addEventListener('click', function () {
+    document.getElementById('passwordModal').style.display = 'none';
+});
+
+
 //JS email error
 const emailField = document.getElementById("email");
 const emailError = document.getElementById("email-error");

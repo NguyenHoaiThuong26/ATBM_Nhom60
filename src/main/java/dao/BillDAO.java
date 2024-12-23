@@ -1,8 +1,6 @@
 package dao;
 
-import bean.Bill;
-import bean.Item;
-import bean.User;
+import bean.*;
 import db.JDBIConnector;
 import org.jdbi.v3.core.Handle;
 
@@ -21,7 +19,34 @@ public class BillDAO {
     private BillDAO() {
     }
 
-    public List<Bill> getBillsByUser(User user) {
+    public static List<Item> getBillDetailsById(int billId) {
+        return JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("SELECT bd.id, bd.productId, bd.quantity, bd.product_color, bd.total_price, pd.name AS product_name, pd.totalPrice AS product_price FROM bill_details bd JOIN product_details pd ON bd.productId = pd.id WHERE bd.billId = :billId")
+                        .bind("billId", billId)
+                        .map((rs, ctx) -> {
+                            int id = rs.getInt("id");
+                            int productId = rs.getInt("productId");
+                            int quantity = rs.getInt("quantity");
+                            String colorName = rs.getString("product_color");
+                            double totalPrice = rs.getDouble("total_price");
+                            String productName = rs.getString("product_name");
+                            double productPrice = rs.getDouble("product_price");
+
+                            // Tạo đối tượng Product
+                            Product product = new Product(productId, productName, productPrice);
+
+                            // Tạo đối tượng Item
+                            Item item = new Item(product, quantity, colorName);
+                            item.setId(id);
+                            item.setPrice(totalPrice);
+
+                            return item;
+                        })
+                        .list()
+        );
+    }
+
+    public static List<Bill> getBillsByUser(User user) {
         try (Handle handle = JDBIConnector.me().open()) {
             return handle.createQuery("SELECT * FROM bills WHERE userId = :userId")
                     .bind("userId", user.getId())
@@ -112,7 +137,9 @@ public class BillDAO {
     public static void main(String[] args) {
 //        Bill bill = BillDAO.getInstance().getBillById(1);
 //        System.out.println(bill);
-        changeInfoBill(1, "SHIPPING");
+//        changeInfoBill(1, "SHIPPING");
+        List<Item> items = getBillDetailsById(109);
+        System.out.println(items);
     }
 
 }

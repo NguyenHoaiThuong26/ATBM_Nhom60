@@ -3,7 +3,7 @@ package controller;
 import bean.User;
 import mail.MailService;
 import service.UserService;
-import util.DigitalSignature;
+import util.RSACipher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,16 +33,16 @@ public class KeyController extends HttpServlet {
             }
 
             // Tạo cặp khóa RSA
-            KeyPair keyPair = DigitalSignature.generateKeyPair(2048);
+            KeyPair keyPair = RSACipher.generateKeyPair(2048);
             PublicKey publicKey = keyPair.getPublic();
             PrivateKey privateKey = keyPair.getPrivate();
 
             // Lưu public key xuống database
-            String publicKeyBase64 = DigitalSignature.exportKey(publicKey);
+            String publicKeyBase64 = RSACipher.exportKey(publicKey);
             UserService.savePuKey(userId, publicKeyBase64);
 
             // Xuất private key dạng base64
-            String privateKeyBase64 = DigitalSignature.exportKey(privateKey);
+            String privateKeyBase64 = RSACipher.exportKey(privateKey);
 
             // Tạo mail
             String emailSub = "Private Key của bạn";

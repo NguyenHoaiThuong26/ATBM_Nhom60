@@ -1,11 +1,13 @@
 package util;
 
+import javax.crypto.Cipher;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-public class DigitalSignature {
+public class RSACipher {
 
     // Tạo cặp khóa RSA
     public static KeyPair generateKeyPair(int keySize) throws NoSuchAlgorithmException {
@@ -14,22 +16,28 @@ public class DigitalSignature {
         return keyPairGenerator.generateKeyPair();
     }
 
-    // Tạo chữ ký điện tử
-    public static String signData(String data, PrivateKey privateKey) throws Exception {
-        Signature signature = Signature.getInstance("SHA256withRSA");
-        signature.initSign(privateKey);
-        signature.update(data.getBytes());
-        byte[] digitalSignature = signature.sign();
-        return Base64.getEncoder().encodeToString(digitalSignature);
+    public String encrypt(String text, String key) throws Exception {
+        byte[] decodedKey = Base64.getDecoder().decode(key);
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+
+        return Base64.getEncoder().encodeToString(cipher.doFinal(text.getBytes(StandardCharsets.UTF_8)));
     }
 
-    // Xác minh chữ ký điện tử
-    public static boolean verifySignature(String data, String digitalSignature, PublicKey publicKey) throws Exception {
-        Signature signature = Signature.getInstance("SHA256withRSA");
-        signature.initVerify(publicKey);
-        signature.update(data.getBytes());
-        byte[] signatureBytes = Base64.getDecoder().decode(digitalSignature);
-        return signature.verify(signatureBytes);
+    public String decrypt(String text, String key) throws Exception {
+        byte[] decodedKey = Base64.getDecoder().decode(key);
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PublicKey publicKey = keyFactory.generatePublic(keySpec);
+
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, publicKey);
+
+        return new String(cipher.doFinal(Base64.getDecoder().decode(text)), StandardCharsets.UTF_8);
     }
 
     // Xuất khóa dạng Base64

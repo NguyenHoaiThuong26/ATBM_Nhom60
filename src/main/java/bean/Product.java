@@ -32,6 +32,12 @@ public class Product extends ProductDAO {
         this.description = description;
     }
 
+    public Product(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.totalPrice = price;
+    }
+
     public Product(int id, String s, String name, String category, double price, String desc) {
         this.id = id;
         this.name = name;

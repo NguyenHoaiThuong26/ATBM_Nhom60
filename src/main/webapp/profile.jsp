@@ -355,6 +355,20 @@
                                     </form>
                                 </div>
                             </div>
+
+                            <div class="list-item">
+                                <div>
+                                    <i class="fa-solid fa-key icon-profile"></i>
+                                    <span>Tải khóa nếu đã có</span>
+                                </div>
+                                <div class="status">
+                                    <span></span>
+                                    <form id="loadKeyForm" action="./load-key" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="public_key_file" required>
+                                        <button type="submit" class="button active account-password">Tải khóa</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

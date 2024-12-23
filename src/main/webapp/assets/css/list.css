@@ -2,7 +2,7 @@ table {
     border-collapse: collapse;
     border-bottom: 1px solid gray;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    width: 80%;
+    width: 100%;
 }
 
 th {
@@ -30,4 +30,17 @@ tr:nth-child(odd) {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 120px;
+}
+
+/*Bill Detail*/
+.main-content {
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+}
+
+.info_detailText {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 6px;
 }

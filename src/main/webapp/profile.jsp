@@ -359,7 +359,7 @@
                             <div class="list-item">
                                 <div>
                                     <i class="fa-solid fa-key icon-profile"></i>
-                                    <span>Tải khóa nếu đã <có></có></span>
+                                    <span>Tải khóa nếu đã có</span>
                                 </div>
                                 <div class="status">
                                     <span></span>

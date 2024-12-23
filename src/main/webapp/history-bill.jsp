@@ -1,3 +1,5 @@
+<%@ page import="bean.Item" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -108,7 +110,7 @@
             </div>
         </div>
         <jsp:include page="sidebar-profile.jsp"/>
-        <div class="your__cart ms-2 p-2 account">
+        <div class="your__cart ms-2 p-2 account" style="width: 82%!important;">
             <table>
                 <thead>
                 <tr>
@@ -119,6 +121,8 @@
                     <th scope="col">Địa chỉ</th>
                     <th scope="col">Phương thức thanh toán</th>
                     <th scope="col">Trạng thái đơn hàng</th>
+                    <th scope="col">Trạng thái bảo mật</th>
+                    <th scope="col">Chi tiết</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -131,69 +135,40 @@
                         <td data-label="Địa chỉ">${order.address}</td>
                         <td data-label="Phương thức thanh toán">${order.paymentMethod}</td>
                         <td data-label="Trạng thái đơn hàng">${order.status == 'IN_PROGRESS' ? 'Chờ xử lý' : (order.status == 'DONE' ? 'Đã nhận đơn' : 'Đang giao hàng')}</td>
+                        <td data-label="Trạng thái bảo mật">${order.address}</td>
+                        <td data-label="Chi tiết">
+                            <div class="list-item">
+                                <button id="billDetailBtn" type="button" class="button active account-password" data-order-id="${order.id}" style="
+                                        height: 40px;
+                                        margin: 0 6px;
+                                        ">
+                                    Chi tiết
+                                </button>
+                            </div>
+
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
 
-            <div class="main-content">
+
+            <div class="main-content" id="billDetailsContainer">
                 <div><h3 class="info_detailText">Thông tin chi tiết</h3></div>
                 <div class="your__cart">
                     <table>
+                        <thead>
                         <tr>
                             <th>Mã SP</th>
                             <th>Tên SP</th>
-                            <th>Ảnh</th>
-                            <th>Màu sắc</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Tổng giá</th>
                         </tr>
-                        <%--                        <%--%>
-                        <%--                            double total = 0;--%>
-                        <%--                            double priceOfItem = 0;--%>
-                        <%--                            List<Item> cart = (List<Item>) session.getAttribute("cart");--%>
-                        <%--                            if (cart != null) {--%>
-                        <%--                                for (int i = 0; i < cart.size(); i++) {--%>
-                        <%--                                    Product item = cart.get(i).getProduct();--%>
-                        <%--                                    int quantity = cart.get(i).getQuantity();--%>
-                        <%--                                    priceOfItem = item.getTotalPrice() * quantity;--%>
-                        <%--                                    total += priceOfItem;--%>
-                        <%--                        %>--%>
-                        <tr>
-                            <%--                            <td><%= item.getId() %>--%>
-                            </td>
-                            <%--                            <td><%= item.getName() %>--%>
-                            </td>
-                            <td>
-                                <%--                                <img src="<%= ImageService.getInstance().getImageByProductId(item.getId()).get(0).getLink() %>"--%>
-                                <%--                                     width="80">--%>
-                            </td>
-                            <%--                            <td><%= cart.get(i).getColorName() %>--%>
-                            </td>
+                        </thead>
+                        <tbody>
 
-                            <%--                            <td id="price<%= item.getId() %>"><%= formatCurrency(item.getTotalPrice()) %>--%>
-                            </td>
-                            <td>
-                                <div class="_grid">
-                                    <%--                                    <button class="_btn _column product-subtract" data-pid="<%= item.getId() %>">&minus;</button>--%>
-                                    <%--                                    <div class="_column product-qty<%= item.getId() %>"><%= quantity %>--%>
-                                    <%--                                    </div>--%>
-                                    <%--                                    <button class="_btn _column product-plus" data-pid="<%= item.getId() %>">&plus;</button>--%>
-                                </div>
-                            </td>
-                            <%--                            <td id="totalPriceOfProduct<%= item.getId() %>"><%= formatCurrency(priceOfItem) %>--%>
-                            </td>
-                        </tr>
-                        <%--                        <%--%>
-                        <%--                                }--%>
-                        <%--                            }--%>
-                        <%--                        %>--%>
-                        <tr>
-                            <td colspan="6" align="right">Tổng tiền</td>
-                            <%--                            <td class="total"><%= formatCurrency(total) %>--%>
-                            </td>
-                        </tr>
+                        </tbody>
                     </table>
                     <br>
                 </div>
@@ -210,5 +185,50 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </body>
+
+<script>
+    document.querySelectorAll("#billDetailBtn").forEach(button => {
+        button.addEventListener("click", function() {
+            const orderId = this.getAttribute("data-order-id");
+
+            $.ajax({
+                url: './getBillDetails',
+                type: 'GET',
+                data: {bill_detail_id: orderId},
+                success: function(response) {
+                    console.log("Response:", response);
+                    const billDetailsContainer = document.getElementById("billDetailsContainer");
+                    billDetailsContainer.style.display = "block";
+
+                    // Clear existing table content
+                    const tbody = billDetailsContainer.querySelector("tbody");
+                    tbody.innerHTML = ""; // Xóa nội dung cũ
+
+                    // Populate new rows with response data
+                    response.forEach(item => {
+                        const totalPrice = item.price * item.quantity; // Tính tổng giá cho sản phẩm
+                        console.log("id" , item.product.id);
+                        console.log("name" , item.product.name);
+                        const rowHTML =
+                            "<tr>" +
+                            "<td>" + item.product.id + "</td>" +
+                            "<td>" + item.product.name + "</td>" +
+                            "<td>" + item.price.toLocaleString('vi-VN') + "₫</td>" +
+                            "<td>" + item.quantity + "</td>" +
+                            "<td>" + totalPrice.toLocaleString('vi-VN') + "₫</td>" +
+                            "</tr>";
+
+                        tbody.innerHTML += rowHTML;
+                    });
+
+                },
+                error: function() {
+                    alert('Đã có lỗi khi tải chi tiết hóa đơn.');
+                }
+            });
+        });
+    });
+</script>
+
 
 </html>

@@ -135,22 +135,22 @@
                             </div>
                         </div>
 
-                        <h2>Xác thực đơn hàng</h2>
-                        <p>Vui lòng xác thực đơn hàng bằng cách nhập private key bên dưới.</p>
-                        <div class = "row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Private key:<span>*</span></label>
-                                    <input type="password" name="privateKey" placeholder=""
-                                           required="required"/>
-                                </div>
+<%--                        <h2>Xác thực đơn hàng</h2>--%>
+<%--                        <p>Vui lòng xác thực đơn hàng bằng cách nhập private key bên dưới.</p>--%>
+<%--                        <div class = "row">--%>
+<%--                            <div class="col-12">--%>
+<%--                                <div class="form-group">--%>
+<%--                                    <label>Private key:<span>*</span></label>--%>
+<%--                                    <input type="password" name="privateKey" placeholder=""--%>
+<%--                                           required="required"/>--%>
+<%--                                </div>--%>
 
-                                <div class="form-group">
-                                    <label>Tải Private Key từ file:<span></span></label>
-                                    <input type="file" name="privateKeyFile" accept=".txt"/>
-                                </div>
-                            </div>
-                        </div>
+<%--                                <div class="form-group">--%>
+<%--                                    <label>Tải Private Key từ file:<span></span></label>--%>
+<%--                                    <input type="file" name="privateKeyFile" accept=".txt"/>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
 
 
                     </form>

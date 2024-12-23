@@ -108,7 +108,7 @@
             </div>
         </div>
         <jsp:include page="sidebar-profile.jsp"/>
-        <div class="your__cart ms-2 p-2">
+        <div class="your__cart ms-2 p-2 account">
             <table>
                 <thead>
                 <tr>
@@ -135,7 +135,73 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <div class="main-content">
+                <div><h3 class="info_detailText">Thông tin chi tiết</h3></div>
+                <div class="your__cart">
+                    <table>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Tên SP</th>
+                            <th>Ảnh</th>
+                            <th>Màu sắc</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng giá</th>
+                        </tr>
+                        <%--                        <%--%>
+                        <%--                            double total = 0;--%>
+                        <%--                            double priceOfItem = 0;--%>
+                        <%--                            List<Item> cart = (List<Item>) session.getAttribute("cart");--%>
+                        <%--                            if (cart != null) {--%>
+                        <%--                                for (int i = 0; i < cart.size(); i++) {--%>
+                        <%--                                    Product item = cart.get(i).getProduct();--%>
+                        <%--                                    int quantity = cart.get(i).getQuantity();--%>
+                        <%--                                    priceOfItem = item.getTotalPrice() * quantity;--%>
+                        <%--                                    total += priceOfItem;--%>
+                        <%--                        %>--%>
+                        <tr>
+                            <%--                            <td><%= item.getId() %>--%>
+                            </td>
+                            <%--                            <td><%= item.getName() %>--%>
+                            </td>
+                            <td>
+                                <%--                                <img src="<%= ImageService.getInstance().getImageByProductId(item.getId()).get(0).getLink() %>"--%>
+                                <%--                                     width="80">--%>
+                            </td>
+                            <%--                            <td><%= cart.get(i).getColorName() %>--%>
+                            </td>
+
+                            <%--                            <td id="price<%= item.getId() %>"><%= formatCurrency(item.getTotalPrice()) %>--%>
+                            </td>
+                            <td>
+                                <div class="_grid">
+                                    <%--                                    <button class="_btn _column product-subtract" data-pid="<%= item.getId() %>">&minus;</button>--%>
+                                    <%--                                    <div class="_column product-qty<%= item.getId() %>"><%= quantity %>--%>
+                                    <%--                                    </div>--%>
+                                    <%--                                    <button class="_btn _column product-plus" data-pid="<%= item.getId() %>">&plus;</button>--%>
+                                </div>
+                            </td>
+                            <%--                            <td id="totalPriceOfProduct<%= item.getId() %>"><%= formatCurrency(priceOfItem) %>--%>
+                            </td>
+                        </tr>
+                        <%--                        <%--%>
+                        <%--                                }--%>
+                        <%--                            }--%>
+                        <%--                        %>--%>
+                        <tr>
+                            <td colspan="6" align="right">Tổng tiền</td>
+                            <%--                            <td class="total"><%= formatCurrency(total) %>--%>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+            </div>
         </div>
+
+
+
     </div>
 </div>
 <!-- MAIN JS -->

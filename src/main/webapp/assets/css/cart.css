@@ -296,3 +296,13 @@ th {
 .content .manage-cart-item .input {
     align-items: center;
 }
+
+.main-content {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.info_detailText {
+    font-size: 22px;
+    margin-bottom: 10px;
+}

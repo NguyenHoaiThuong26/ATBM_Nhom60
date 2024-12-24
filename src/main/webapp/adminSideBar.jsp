@@ -52,6 +52,12 @@
                 <a href="adminBillIndex">Quản lý hóa đơn</a>
             </button>
         </li>
+        <li class="side-bar__item">
+            <i class="icon fa-solid fa-key"></i>
+            <button class="manage-bill item-cta">
+                <a href="adminKeyIndex">Quản lý khóa</a>
+            </button>
+        </li>
         <li class="side-bar__item"></li>
     </ul>
 </div>

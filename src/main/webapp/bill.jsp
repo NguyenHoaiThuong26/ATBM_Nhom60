@@ -169,6 +169,8 @@
                                 <li>(+) Shipping<span>Free</span></li>
                                 <li class="last">Thành tiền<span><fmt:formatNumber value="${total}" type="currency"
                                                                                    currencyCode="VND"/></span></li>
+                                <li class="last">Thành tiền<span>value="${billDetails}" type="currency"
+                                                                                   currencyCode="VND"/></span></li>
                             </ul>
                         </div>
                     </div>

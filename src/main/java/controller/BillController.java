@@ -1,5 +1,6 @@
 package controller;
 
+import bean.Item;
 import bean.User;
 import dao.BillDAO;
 
@@ -10,14 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name ="BillController", value = "/bill")
 public class BillController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // get total from param total in url
+        String billDetails = req.getParameter("cart");
         String total = req.getParameter("total");
         req.setAttribute("total", total);
+        req.setAttribute("billDetails", billDetails);
         req.getRequestDispatcher("bill.jsp").forward(req, resp);
     }
 

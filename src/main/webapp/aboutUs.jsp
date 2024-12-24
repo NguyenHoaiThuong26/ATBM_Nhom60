@@ -101,24 +101,10 @@
                     </div>
                     <div class="about__our__item col col-third mt-32">
                         <div class="about__item__image">
-                            <img class="member__img" decoding="async" src="./assets/img/team/ad1.jpg">
-
                         </div>
                         <div class="about__item__info">
-                            <h3 class="member__name">Trương Nguyễn Hương Giang</h3>
-                            <p class="member__position">Trường nhóm</p>
+                            <h3 class="member__name">Phạm Nguyễn Anh Phú</h3>
                             <span class="member__id">21130338</span>
-                        </div>
-                    </div>
-                    <div class="about__our__item col col-third mt-32">
-                        <div class="about__item__image">
-                            <img class="member__img" decoding="async" src="./assets/img/team/ad2.jpg">
-
-                        </div>
-                        <div class="about__item__info">
-                            <h3 class="member__name">Phạm Đức Đại</h3>
-                            <p class="member__position">Thành viên</p>
-                            <span class="member__id">21130304</span>
                         </div>
                     </div>
                 </div>

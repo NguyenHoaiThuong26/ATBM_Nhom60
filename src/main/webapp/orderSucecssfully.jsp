@@ -74,7 +74,7 @@
 
 <div class="information">
     <h3>Thanh toán thành công! Cảm ơn bạn đã sử dụng dịch vụ của <span><h3>DrumStore</h3></span></h3>
-    <button><a href="home">Quay trở lại trang chủ</a></button>
+    <button><a href="verifyOrder.jsp">Quay trở lại trang chủ</a></button>
 </div>
 </body>
 </html>

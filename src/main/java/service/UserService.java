@@ -22,6 +22,10 @@ public class UserService {
 
     }
 
+    public static void getCartItemsByBillId(int i) {
+        return;
+    }
+
     public User checkLogin(String username, String password) {
 
         String hashedPassword = Encode.toSHA1(password);

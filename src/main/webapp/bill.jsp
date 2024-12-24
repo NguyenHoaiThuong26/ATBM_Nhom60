@@ -233,9 +233,9 @@
 
         $('#continue-checkout').click(function () {
             if ($('#COD').is(':checked') || $('#BANK').is(':checked')) {
-                const name = $('input[name="name"]').val();
-                const phone = $('input[name="phone"]').val();
-                const address = $('input[name="address"]').val();
+                const name = $('input[name="name"]').val().trim();
+                const phone = $('input[name="phone"]').val().trim();
+                const address = $('input[name="address"]').val().trim();
                 const payment = $('#COD').is(':checked') ? 'COD' : 'BANK';
 
                 if(name == '' || phone == '' || address == ''){
@@ -257,9 +257,15 @@
                     success: function (response) {
                         alert('Thêm vào giỏ hàng thành công');
                         // direct to cart page
-                        window.location.href = '<%= request.getContextPath()%>/thank-you';
+                        window.location.href = '<%= request.getContextPath()%>/verifyOrder.jsp';
                     },
                     error: function (error) {
+                        console.error('Lỗi khi gửi dữ liệu:', error);
+                        alert('Đã xảy ra lỗi trong quá trình đặt hàng. Vui lòng thử lại.');
+                    },
+                    complete: function () {
+                        // Enable button sau khi hoàn thành
+                        $('#continue-checkout').prop('disabled', false).text('Tiếp tục thanh toán');
                     }
                 });
 

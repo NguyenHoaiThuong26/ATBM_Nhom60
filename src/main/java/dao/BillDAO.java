@@ -111,6 +111,75 @@ public class BillDAO {
         }
     }
 
+    public static int getLastestBill() {
+        Integer billId = JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("SELECT id FROM bills ORDER BY id DESC LIMIT 1")
+                        .mapTo(Integer.class)
+                        .findOne()
+                        .orElse(null) // Giả sử trả về null nếu không tìm thấy hóa đơn
+        );
+        return billId != null ? billId : -1; // Trả về -1 nếu không có bill nào
+    }
+
+    public static String getBillAndBillDetailsToHash(int billId) {
+        StringBuilder dataToHash = new StringBuilder();
+        JDBIConnector.me().useHandle(handle -> {
+            // Truy vấn dữ liệu từ bảng bills và bill_details
+            List<String> results = handle.createQuery("SELECT b.id AS bill_id, b.userId, b.full_name, b.phone, b.address, b.totalPrice, b.payment_method, b.createDate, bd.productId, bd.quantity, bd.total_price, bd.product_color FROM bills b JOIN bill_details bd ON b.id = bd.billId WHERE b.id = :billId")
+                    .bind("billId", billId)
+                    .map((rs, ctx) -> {
+                        // Định dạng dữ liệu
+                        String createDateFormatted = rs.getTimestamp("createDate").toLocalDateTime().toString(); // ISO-8601 format
+                        String totalPriceFormatted = String.format("%.2f", rs.getDouble("totalPrice"));
+                        String itemTotalPriceFormatted = String.format("%.2f", rs.getDouble("total_price"));
+                        String productColor = rs.getString("product_color") != null ? rs.getString("product_color") : ""; // Thay null bằng ""
+
+                        // Kết hợp dữ liệu từng dòng thành chuỗi
+                        return new StringBuilder()
+                                .append(rs.getLong("bill_id")).append("|")
+                                .append(rs.getInt("userId")).append("|")
+                                .append(rs.getString("full_name") != null ? rs.getString("full_name") : "").append("|")
+                                .append(rs.getString("phone") != null ? rs.getString("phone") : "").append("|")
+                                .append(rs.getString("address") != null ? rs.getString("address") : "").append("|")
+                                .append(totalPriceFormatted).append("|")
+                                .append(rs.getString("payment_method") != null ? rs.getString("payment_method") : "").append("|")
+                                .append(createDateFormatted).append("|")
+                                .append(rs.getInt("productId")).append("|")
+                                .append(rs.getInt("quantity")).append("|")
+                                .append(itemTotalPriceFormatted).append("|")
+                                .append(productColor)
+                                .toString();
+                    }).list();
+
+            // Kết hợp tất cả các dòng lại thành một chuỗi duy nhất
+            for (String row : results) {
+                dataToHash.append(row).append("\n"); // Thêm xuống dòng để tách từng dòng dữ liệu
+            }
+        });
+
+        return dataToHash.toString().trim(); // Trả về chuỗi kết quả để hash
+    }
+
+    public static void saveHashCode(String hashedBill, int billId) {
+        JDBIConnector.me().useHandle(handle -> {
+            handle.createUpdate("UPDATE bills SET hash_bill = :hash WHERE id = :billId")
+                    .bind("hash", hashedBill)
+                    .bind("billId", billId)
+                    .execute();
+        });
+    }
+
+    public static void saveSignature(String signature, int billId) {
+        JDBIConnector.me().useHandle(handle -> {
+            handle.createUpdate("UPDATE bills SET signature = :signature WHERE id = :billId")
+                    .bind("signature", signature)
+                    .bind("billId", billId)
+                    .execute();
+        });
+    }
+
+
+
     public Bill getBillById(int id) {
         Bill bill = JDBIConnector.me().withHandle(handle ->
                 handle.createQuery("SELECT bills.id, bills.status FROM bills WHERE id = :id")
@@ -138,8 +207,9 @@ public class BillDAO {
 //        Bill bill = BillDAO.getInstance().getBillById(1);
 //        System.out.println(bill);
 //        changeInfoBill(1, "SHIPPING");
-        List<Item> items = getBillDetailsById(109);
-        System.out.println(items);
+//        String bill = getBillAndBillDetailsToHash(110);
+        int billId = getLastestBill();
+        System.out.println(billId);
     }
 
 }

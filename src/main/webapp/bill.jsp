@@ -123,6 +123,8 @@
                                     <label>Số điện thoại<span>*</span></label>
                                     <input type="number" value="${sessionScope.auth.phone}"  name="phone" placeholder=""
                                            required="required"/>
+                                    <input type="hidden" value="${cart}" name="cart"
+                                           required="required"/>
                                 </div>
                             </div>
 
@@ -169,8 +171,7 @@
                                 <li>(+) Shipping<span>Free</span></li>
                                 <li class="last">Thành tiền<span><fmt:formatNumber value="${total}" type="currency"
                                                                                    currencyCode="VND"/></span></li>
-                                <li class="last">Thành tiền<span>value="${billDetails}" type="currency"
-                                                                                   currencyCode="VND"/></span></li>
+<%--                                <li class="last">Cart<span>${cart}</span></li>--%>
                             </ul>
                         </div>
                     </div>
@@ -257,9 +258,10 @@
                     type: 'POST',
                     data: data,
                     success: function (response) {
+                        console.log("Response:", response);
+                        const billId = response.billId;
                         alert('Thêm vào giỏ hàng thành công');
-                        // direct to cart page
-                        window.location.href = '<%= request.getContextPath()%>/thank-you';
+                        window.location.href = '<%= request.getContextPath()%>/thank-you?billId=' + billId;
                     },
                     error: function (error) {
                     }

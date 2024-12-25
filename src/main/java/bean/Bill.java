@@ -12,6 +12,8 @@ public class Bill {
     String paymentMethod;
     String status;
 
+    String verified_status;
+
 
     public Bill(int id, String createDate, double totalPrice) {
         this.id = id;
@@ -19,7 +21,7 @@ public class Bill {
         this.totalPrice = totalPrice;
     }
 
-    public Bill(int id, User user, int userId, String fullName, String phone, String address, String createDate, double totalPrice, String paymentMethod, String status) {
+    public Bill(int id, User user, int userId, String fullName, String phone, String address, String createDate, double totalPrice, String paymentMethod, String status, String verified_status) {
         this.id = id;
         this.user = user;
         this.userId = userId;
@@ -30,6 +32,7 @@ public class Bill {
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
         this.status = status;
+        this.verified_status = verified_status;
     }
 
     public Bill() {
@@ -131,6 +134,14 @@ public class Bill {
         this.paymentMethod = paymentMethod;
     }
 
+    public String getVerified_status() {
+        return verified_status;
+    }
+
+    public void setVerified_status(String verified_status) {
+        this.verified_status = verified_status;
+    }
+
     @Override
     public String toString() {
         return "Bill{" +
@@ -144,6 +155,7 @@ public class Bill {
                 ", totalPrice=" + totalPrice +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", status='" + status + '\'' +
+                ", verified_status='" + verified_status + '\'' +
                 '}';
     }
 }

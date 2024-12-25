@@ -197,7 +197,7 @@
                             <!-- Include hidden input fields for order details -->
                             <input type="hidden" name="total" value="<%= total %>">
                             <!-- Add other necessary hidden fields -->
-<%--                            <input type="hidden" name="cart" value="<%= cart %>">--%>
+                            <input type="hidden" name="cart" value="<%= cart %>">
                             <button type="submit" class="btn__payment">
                                 Thanh toán
                             </button>

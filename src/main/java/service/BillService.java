@@ -15,6 +15,22 @@ public class BillService {
         return instance;
     }
 
+    public static String getBillAndBillDetailsToHash(int billId) {
+        return BillDAO.getBillAndBillDetailsToHash(billId);
+    }
+
+    public static int getLastestBill() {
+        return BillDAO.getLastestBill();
+    }
+
+    public static void saveHashCode(String hashedBill, int billId) {
+        BillDAO.saveHashCode(hashedBill, billId);
+    }
+
+    public static void saveSignature(String signature, int billId) {
+        BillDAO.saveSignature(signature, billId);
+    }
+
     public static Bill getBillById(int id) {
         return BillDAO.getInstance().getBillById(id);
     }

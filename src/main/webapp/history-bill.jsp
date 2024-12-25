@@ -135,7 +135,7 @@
                         <td data-label="Địa chỉ">${order.address}</td>
                         <td data-label="Phương thức thanh toán">${order.paymentMethod}</td>
                         <td data-label="Trạng thái đơn hàng">${order.status == 'IN_PROGRESS' ? 'Chờ xử lý' : (order.status == 'DONE' ? 'Đã nhận đơn' : 'Đang giao hàng')}</td>
-                        <td data-label="Trạng thái bảo mật">${order.address}</td>
+                        <td data-label="Trạng thái bảo mật">${order.verified_status == 'PENDING' ? 'Chờ xử lý' : (order.verified_status == 'VERIFIED' ? 'Đã xác thực' : 'Đã bị chỉnh sửa')}</td>
                         <td data-label="Chi tiết">
                             <div class="list-item">
                                 <button id="billDetailBtn" type="button" class="button active account-password" data-order-id="${order.id}" style="

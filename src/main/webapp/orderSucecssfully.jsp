@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/index.css" />
     <link rel="stylesheet" href="assets/css/bill.css" />
     <link rel="stylesheet" href="assets/css/bill2.css" />
+    <link rel="stylesheet" href="assets/css/profile.css" />
     <!-- <link rel="stylesheet" href="./assets/css/product.css"> -->
 
     <!-- embed fonts -->
@@ -59,6 +60,7 @@
     />
     <!-- styles -->
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/profile.css" />
     <link rel="stylesheet" href="assets/css/productDetail.css" />
 
     <!-- OWL CAROUSEL CSS -->
@@ -72,9 +74,39 @@
 <%--    HEADER--%>
 <c:import url="header.jsp"/>
 
-<div class="information">
-    <h3>Thanh toán thành công! Cảm ơn bạn đã sử dụng dịch vụ của <span><h3>DrumStore</h3></span></h3>
-    <button><a href="home">Quay trở lại trang chủ</a></button>
+<div class="information input-content">
+    <h3>Thanh toán thành công! Vui lòng nhập chữ ký để xác thực đơn hàng</h3>
+    <!-- Input for Signature -->
+    <form action="./thank-you" method="post">
+        <label for="signature">Chữ ký của bạn:</label>
+        <input type="text" id="signature" class="input-name" name="signature" required style="width: 60%!important;">
+        <input type="hidden" id="billId" name="billId" value="${billId}">
+<%--        <span>${billId}</span>--%>
+        <button type="submit">Ký xác nhận</button>
+    </form>
+
+
+    <button style="margin-top: 40px"><a href="home">Quay trở lại trang chủ</a></button>
+    <c:if test="${not empty message}">
+        <p class="key-alert <c:out value="${message.contains('thành công') ? 'success' : 'error'}" />" id="alertMessage">
+                ${message}
+        </p>
+    </c:if>
 </div>
+<script>
+    setTimeout(function() {
+        const alertMessage = document.getElementById('alertMessage');
+        if (alertMessage) {
+            alertMessage.style.transition = "opacity 0.5s";
+            alertMessage.style.opacity = 0;
+
+
+            setTimeout(() => {
+                alertMessage.style.display = 'none';
+            }, 500);
+        }
+    }, 3000);
+</script>
+
 </body>
 </html>

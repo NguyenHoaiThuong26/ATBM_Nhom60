@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
@@ -9,9 +8,16 @@
         <welcome-file>home</welcome-file>
     </welcome-file-list>
 
-<!--    <error-page>-->
-<!--        <error-code>404</error-code>-->
-<!--        <location></location>-->
-<!--    </error-page>-->
-
+    <!-- Security constraint to enforce HTTPS -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>SecureApp</web-resource-name>
+            <!-- Match all URLs in the application -->
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <!-- Enforce CONFIDENTIAL for HTTPS -->
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
 </web-app>

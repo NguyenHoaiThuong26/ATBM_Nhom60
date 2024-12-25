@@ -125,7 +125,7 @@ public class BillDAO {
         StringBuilder dataToHash = new StringBuilder();
         JDBIConnector.me().useHandle(handle -> {
             // Truy vấn dữ liệu từ bảng bills và bill_details
-            List<String> results = handle.createQuery("SELECT b.id AS bill_id, b.userId, b.full_name, b.phone, b.address, b.totalPrice, b.payment_method, b.createDate, bd.productId, bd.quantity, bd.total_price, bd.product_color FROM bills b JOIN bill_details bd ON b.id = bd.billId WHERE b.id = :billId")
+            List<String> results = handle.createQuery("SELECT b.id AS bill_id, b.userId, b.full_name, b.phone, b.address, b.totalPrice, b.payment_method, b.createDate, bd.productId, bd.quantity, bd.total_price, bd.product_color, p.name FROM bills b JOIN bill_details bd ON b.id = bd.billId JOIN product_details p ON bd.productId = p.id WHERE b.id = :billId")
                     .bind("billId", billId)
                     .map((rs, ctx) -> {
                         // Định dạng dữ liệu
@@ -145,6 +145,7 @@ public class BillDAO {
                                 .append(rs.getString("payment_method") != null ? rs.getString("payment_method") : "").append("|")
                                 .append(createDateFormatted).append("|")
                                 .append(rs.getInt("productId")).append("|")
+                                .append(rs.getString("name")).append("|")
                                 .append(rs.getInt("quantity")).append("|")
                                 .append(itemTotalPriceFormatted).append("|")
                                 .append(productColor)
@@ -242,7 +243,7 @@ public class BillDAO {
 //        Bill bill = BillDAO.getInstance().getBillById(1);
 //        System.out.println(bill);
 //        changeInfoBill(1, "SHIPPING");
-        String bill = getBillAndBillDetailsToHash(2);
+        String bill = getBillAndBillDetailsToHash(112);
 //        int billId = getLastestBill();
         System.out.println(bill);
 

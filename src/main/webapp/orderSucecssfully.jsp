@@ -3,11 +3,6 @@
 <html>
 <head>
     <title>Chốt đơn thành công</title>
-    <style>
-        .information {
-            padding-top: 100px;
-        }
-    </style>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,7 +70,7 @@
 <c:import url="header.jsp"/>
 
 <div class="information input-content">
-    <h3>Thanh toán thành công! Vui lòng nhập chữ ký để xác thực đơn hàng</h3>
+    <h3 class="signature_title">Vui lòng nhập chữ ký điện tử để xác thực đơn hàng</h3>
     <!-- Input for Signature -->
     <form action="./thank-you" method="post">
         <label for="signature">Chữ ký của bạn:</label>

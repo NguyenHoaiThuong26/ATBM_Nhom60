@@ -110,7 +110,15 @@
                                     <c:otherwise>Trạng thái không xác định</c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${o.getVerified_status() == 'PENDING' ? 'Chờ xử lý' : (o.getVerified_status() == 'VERIFIED' ? 'Đã xác thực' : 'Đã bị chỉnh sửa')}</td>
+                            <td>
+<%--                                    ${o.getVerified_status() == 'PENDING' ? 'Chờ xử lý' : (o.getVerified_status() == 'VERIFIED' ? 'Đã xác thực' : 'Đã bị chỉnh sửa')}--%>
+                                <c:choose>
+                                    <c:when test="${o.getVerified_status() == 'PENDING'}">Chờ xử lý</c:when>
+                                    <c:when test="${o.getVerified_status() == 'VERIFIED'}">Đã xác thực</c:when>
+                                    <c:when test="${o.getVerified_status() == 'MODIFIED'}">Đã bị chỉnh sửa</c:when>
+                                    <c:otherwise>Trạng thái không xác định</c:otherwise>
+                                </c:choose>
+                            </td>
                             <td>
                                 <a class="link" target="_blank" href="adminCheckSignature?billId=${o.getId()}">
                                     <i class="fa-solid fa-check"></i>

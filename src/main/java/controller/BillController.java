@@ -40,18 +40,21 @@ public class BillController extends HttpServlet {
         String dataToHash = BillService.getBillAndBillDetailsToHash(billId);
 
         try {
-            String hashedBill = HashUtil.hashText(dataToHash, HashUtil.SHA_1);
+            String hashedBill = HashUtil.hashText(dataToHash, HashUtil.SHA_256);
+
+            String hashedBillAndInformation = "Mã hash:\n" + hashedBill + "\n\n Thông tin hóa đơn:\n" + dataToHash;
+
 
             BillService.saveHashCode(hashedBill, billId);
 
             // Tạo mail
             String emailSub = "Mã hash thông tin đơn hàng của bạn";
             String emailMessage = "<p>Gửi " + u.getUsername() + ",</p>"
-                    + "<p>Đây là mã hash thông tin đơn hàng của bạn. Vui lòng xem file được đính kèm</p>"
+                    + "<p>Đây là mã hash và thông tin đơn hàng của bạn. Vui lòng xem file được đính kèm</p>"
                     + "<p>Cảm ơn vì đã sử dụng dịch vụ của chúng tôi</p>";
-            String fileName = "hash.txt";
+            String fileName = "hashAndInformation.txt";
 
-            MailService.sendEmailWithAttachment(u.getEmail(), emailSub, emailMessage, fileName, hashedBill);
+            MailService.sendEmailWithAttachment(u.getEmail(), emailSub, emailMessage, fileName, hashedBillAndInformation);
 
 
 

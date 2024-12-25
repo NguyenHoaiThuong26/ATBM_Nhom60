@@ -52,7 +52,7 @@ public class AdminCheckSignature extends HttpServlet  {
         RSACipher rsaCipher = new RSACipher();
 
         try {
-            String currentHash = HashUtil.hashText(currenBillDataToHash, HashUtil.SHA_1);
+            String currentHash = HashUtil.hashText(currenBillDataToHash, HashUtil.SHA_256);
             String decryptedHash = rsaCipher.decrypt(storedSignature, publicKey);
             if (decryptedHash.equals(currentHash)) {
                 BillService.changeStatusByBillId(billId, "IN_PROGRESS", "VERIFIED");

@@ -134,8 +134,26 @@
                         <td data-label="Số điện thoại">${order.phone}</td>
                         <td data-label="Địa chỉ">${order.address}</td>
                         <td data-label="Phương thức thanh toán">${order.paymentMethod}</td>
-                        <td data-label="Trạng thái đơn hàng">${order.status == 'IN_PROGRESS' ? 'Chờ xử lý' : (order.status == 'DONE' ? 'Đã nhận đơn' : 'Đang giao hàng')}</td>
-                        <td data-label="Trạng thái bảo mật">${order.verified_status == 'PENDING' ? 'Chờ xử lý' : (order.verified_status == 'VERIFIED' ? 'Đã xác thực' : 'Đã bị chỉnh sửa')}</td>
+                        <td data-label="Trạng thái đơn hàng">
+<%--                                ${order.status == 'IN_PROGRESS' ? 'Chờ xử lý' : (order.status == 'DONE' ? 'Đã nhận đơn' : 'Đang giao hàng')}--%>
+                            <c:choose>
+                                <c:when test="${order.status == 'IN_PROGRESS'}">Chờ xử lý</c:when>
+                                <c:when test="${order.status == 'DONE'}">Đã nhận đơn</c:when>
+                                <c:when test="${order.status == 'IN_SHIPPING'}">Đang giao hàng</c:when>
+                                <c:when test="${order.status == 'CANCEL'}">Đã bị hủy</c:when>
+                                <c:otherwise>Trạng thái không xác định</c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <td data-label="Trạng thái bảo mật">
+<%--                                ${order.verified_status == 'PENDING' ? 'Chờ xử lý' : (order.verified_status == 'VERIFIED' ? 'Đã xác thực' : 'Đã bị chỉnh sửa')}--%>
+                                    <c:choose>
+                                        <c:when test="${order.verified_status == 'PENDING'}">Chờ xử lý</c:when>
+                                        <c:when test="${order.verified_status == 'VERIFIED'}">Đã xác thực</c:when>
+                                        <c:when test="${order.verified_status == 'MODIFIED'}">Đã bị chỉnh sửa</c:when>
+                                        <c:otherwise>Trạng thái không xác định</c:otherwise>
+                                    </c:choose>
+                        </td>
                         <td data-label="Chi tiết">
                             <div class="list-item">
                                 <button id="billDetailBtn" type="button" class="button active account-password" data-order-id="${order.id}" style="

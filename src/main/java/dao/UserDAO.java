@@ -1,6 +1,8 @@
 package dao;
 
+import bean.Bill;
 import bean.Product;
+import bean.PublicKey;
 import bean.User;
 import db.JDBIConnector;
 import util.Encode;
@@ -250,12 +252,66 @@ public class UserDAO {
         });
     }
 
+    public static List<PublicKey> getPublicKeyList() {
+        return JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("select * from public_keys")
+                        .map((rs, ctx) -> {
+                            PublicKey pk = new PublicKey();
+                            pk.setId(rs.getInt("id"));
+                            pk.setIdUser(rs.getInt("id_user"));
+                            pk.setPublicKey(rs.getString("public_key"));
+                            pk.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                            pk.setExpiredTime(rs.getTimestamp("expired_time") != null ? rs.getTimestamp("expired_time").toLocalDateTime() : null);
+                            pk.setValid(rs.getInt("is_valid") == 1);
+                            return pk;
+                        })
+                        .collect(Collectors.toList())
+        );
+    }
+
+    public static PublicKey getPublicKeyById(int keyId) {
+        return JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("select * from public_keys where id = :keyId")
+                        .bind("keyId", keyId)
+                        .map((rs, ctx) -> {
+                            PublicKey pk = new PublicKey();
+                            pk.setId(rs.getInt("id"));
+                            pk.setIdUser(rs.getInt("id_user"));
+                            pk.setPublicKey(rs.getString("public_key"));
+                            pk.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                            pk.setExpiredTime(rs.getTimestamp("expired_time") != null ? rs.getTimestamp("expired_time").toLocalDateTime() : null);
+                            pk.setValid(rs.getInt("is_valid") == 1);
+                            return pk;
+                        })
+                        .findFirst()
+                        .orElse(null)
+        );
+    }
+
+    public static void updatePublicKeyStatus(int id, boolean isValid) {
+        JDBIConnector.me().withHandle(handle ->
+                handle.createUpdate("UPDATE public_keys SET is_valid = :isValid WHERE id = :id")
+                        .bind("isValid", isValid)
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+
+    public static void removeKey(int keyId) {
+        JDBIConnector.me().withHandle(handle ->
+                handle.createUpdate("DELETE FROM public_keys WHERE id = :id")
+                        .bind("id", keyId)
+                        .execute()
+        );
+    }
 
     public static void main(String[] args) {
 //        changePassword("cunoccho0601@gmail.com", "hahaha");
 
-        changeInfoUserWithRole(5, 0);
+//        changeInfoUserWithRole(5, 0);
 //        savePuKey(13, "hello");
+        System.out.println(getPublicKeyList());
 
     }
 }

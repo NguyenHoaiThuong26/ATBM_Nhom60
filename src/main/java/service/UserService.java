@@ -1,5 +1,6 @@
 package service;
 
+import bean.PublicKey;
 import bean.User;
 import dao.UserDAO;
 import db.JDBIConnector;
@@ -87,12 +88,30 @@ public class UserService {
         UserDAO.updateExpiredKey(userId);
     }
 
+    public static List<PublicKey> getPublicKeyList() {
+        return UserDAO.getPublicKeyList();
+    }
+
+    public static PublicKey getPublicKeyById(int keyId) {
+        return UserDAO.getPublicKeyById(keyId);
+    }
+
+    public static void updatePublicKeyStatus(int id, boolean isValid) {
+       UserDAO.updatePublicKeyStatus(id, isValid);
+    }
+
+    public static void removeKey(int keyId) {
+        UserDAO.removeKey(keyId);
+    }
+
+
 
     public static void main(String[] args) {
-        List<User> users = JDBIConnector.me().withHandle(handle ->
-                handle.createQuery("select * from users").mapToBean(User.class).collect(Collectors.toList())
-        );
-        System.out.println(users);
+//        List<User> users = JDBIConnector.me().withHandle(handle ->
+//                handle.createQuery("select * from users").mapToBean(User.class).collect(Collectors.toList())
+//        );
+        List<PublicKey> pks = UserService.getPublicKeyList();
+        System.out.println(pks);
 
     }
 

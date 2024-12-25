@@ -97,7 +97,7 @@
                             </td>
                             <td>${o.getId()}</td>
                             <td>${o.getIdUser()}</td>
-                            <td class="public-key-cell" style="word-wrap: break-word;">${o.getPublicKey()}</td>
+                            <td class="public-key-cell" style="word-break: break-word;">${o.getPublicKey()}</td>
                             <td>${o.getStartTime()}</td>
                             <td>${o.getExpiredTime()}</td>
                             <td>${o.isValid() == 'true' ? 'Đang hoạt động' : 'Vô hiệu hóa'}</td>

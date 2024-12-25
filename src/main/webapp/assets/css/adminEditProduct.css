@@ -282,3 +282,12 @@ button {
     flex-direction: column;
     gap: 20px;
 }
+
+.id_container {
+    display: flex;
+    align-items: center;
+}
+
+.id_text {
+    font-size: 20px;
+}

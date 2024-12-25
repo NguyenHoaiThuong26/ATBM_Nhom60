@@ -205,7 +205,7 @@ public class BillDAO {
 
     public Bill getBillById(int id) {
         Bill bill = JDBIConnector.me().withHandle(handle ->
-                handle.createQuery("SELECT bills.id, bills.status FROM bills WHERE id = :id")
+                handle.createQuery("SELECT bills.id, bills.status, bills.verified_status FROM bills WHERE id = :id")
                         .bind("id", id)
                         .mapToBean(Bill.class)
                         .findOne()
@@ -240,12 +240,12 @@ public class BillDAO {
 
 
     public static void main(String[] args) {
-//        Bill bill = BillDAO.getInstance().getBillById(1);
-//        System.out.println(bill);
-//        changeInfoBill(1, "SHIPPING");
-        String bill = getBillAndBillDetailsToHash(112);
-//        int billId = getLastestBill();
+        Bill bill = BillDAO.getInstance().getBillById(110);
         System.out.println(bill);
+//        changeInfoBill(1, "SHIPPING");
+//        String bill = getBillAndBillDetailsToHash(112);
+//        int billId = getLastestBill();
+//        System.out.println(bill);
 
     }
 

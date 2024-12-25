@@ -2,6 +2,7 @@ package controller.admin;
 
 import bean.*;
 import dao.*;
+import service.BillService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,11 +27,14 @@ public class adminChangeInfoBill extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String status = req.getParameter("bill-status");
+        String signatureStatus = req.getParameter("signature-status");
         int billId = Integer.parseInt(req.getParameter("billId"));
 
 
-        BillDAO.changeInfoBill(billId, status);
+        BillService.changeStatusByBillId(billId, status, signatureStatus);
+//        BillDAO.changeInfoBill(billId, status);
 
+//        Bill updatedBill = BillDAO.getInstance().getBillById(billId);
         Bill updatedBill = BillDAO.getInstance().getBillById(billId);
         HttpSession session = req.getSession();
         session.setAttribute("bill", updatedBill);

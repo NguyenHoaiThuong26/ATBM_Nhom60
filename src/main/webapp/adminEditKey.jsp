@@ -59,9 +59,10 @@
         <form method="get" action="changeInfoKey" class="left">
             <input value="${publicKey.getId()}" hidden="hidden" name="keyId">
 
-            <div class="user user-username">
+            <div class="id_container user user-username">
                 <label for="keyId" class="user-title mgr-20">Public Key ID:</label>
-                <input id="keyId" name="keyId" class="user-sub-input" value="${publicKey.getId()}"></input>
+                <input type="hidden" id="keyId" name="keyId" class="user-sub-input" value="${publicKey.getId()}"></input>
+                <p class="id_text">${publicKey.getId()}</p>
             </div>
 
             <div class="user user-role">

@@ -70,7 +70,7 @@
 <c:import url="header.jsp"/>
 
 <div class="information input-content">
-    <h3 class="signature_title">Vui lòng nhập chữ ký điện tử để xác thực đơn hàng</h3>
+    <h3 class="signature_title">Vui lòng nhập chữ ký điện tử bằng cách tải về và sử dụng tool bên dưới để xác thực đơn hàng</h3>
     <!-- Input for Signature -->
     <form action="./thank-you" method="post">
         <label for="signature">Chữ ký của bạn:</label>
@@ -80,6 +80,8 @@
         <button type="submit">Ký xác nhận</button>
     </form>
 
+    <!-- Link tải tool -->
+    <a href="./download-tool" style="margin-top: 40px; display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Download tool</a>
 
     <button style="margin-top: 40px"><a href="home">Quay trở lại trang chủ</a></button>
     <c:if test="${not empty message}">

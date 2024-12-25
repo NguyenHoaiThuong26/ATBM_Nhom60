@@ -55,7 +55,7 @@
     <div class="main-content">
         <div id="manage-bill" class="content-wrapper">
             <div class="header-admin">
-                <div class="header-title">Quản lý hóa đơn</div>
+                <div class="header-title">Quản lý khóa</div>
             </div>
             <div class="content-header">
                 <div class="content-search">

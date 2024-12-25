@@ -288,6 +288,19 @@ public class UserDAO {
         );
     }
 
+    public static String getPublicKeyByUserId(int userId) {
+        return JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("SELECT public_key FROM public_keys WHERE id_user = :userId AND is_valid = 1")
+                        .bind("userId", userId)
+                        .mapTo(String.class)
+                        .findOne()
+                        .orElse(null) // Trả về null nếu không tìm thấy public key hợp lệ
+        );
+    }
+
+
+
+
     public static void updatePublicKeyStatus(int id, boolean isValid) {
         JDBIConnector.me().withHandle(handle ->
                 handle.createUpdate("UPDATE public_keys SET is_valid = :isValid WHERE id = :id")

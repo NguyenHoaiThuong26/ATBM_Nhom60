@@ -78,6 +78,8 @@
                         <th>Ngày tạo hóa đơn</th>
                         <th>Tổng tiền đơn hàng</th>
                         <th>Trạng thái đơn hàng</th>
+                        <th>Kiểm tra chữ ký</th>
+                        <th>Check</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -99,7 +101,21 @@
                                 <fmt:formatNumber var="formattedPrice" value="${roundedPrice}" pattern="###,###,###"/>
                                     ${formattedPrice}&nbsp;₫
                             </td>
-                            <td>${o.getStatus() == 'IN_PROGRESS' ? 'Chờ xử lý' : (o.getStatus() == 'DONE' ? 'Đã nhận đơn' : 'Đang giao hàng')}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${o.getStatus() == 'IN_PROGRESS'}">Chờ xử lý</c:when>
+                                    <c:when test="${o.getStatus() == 'DONE'}">Đã nhận đơn</c:when>
+                                    <c:when test="${o.getStatus() == 'IN_SHIPPING'}">Đang giao hàng</c:when>
+                                    <c:when test="${o.getStatus() == 'CANCEL'}">Đã bị hủy</c:when>
+                                    <c:otherwise>Trạng thái không xác định</c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>${o.getVerified_status() == 'PENDING' ? 'Chờ xử lý' : (o.getVerified_status() == 'VERIFIED' ? 'Đã xác thực' : 'Đã bị chỉnh sửa')}</td>
+                            <td>
+                                <a class="link" target="_blank" href="adminCheckSignature?billId=${o.getId()}">
+                                    <i class="fa-solid fa-check"></i>
+                                </a>
+                            </td>
                         </tr>
 
                     </c:forEach>

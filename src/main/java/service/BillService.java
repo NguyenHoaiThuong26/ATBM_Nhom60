@@ -35,6 +35,22 @@ public class BillService {
         return BillDAO.getInstance().getBillById(id);
     }
 
+    public static String getHashCodeByBillId(int billId) {
+        return BillDAO.getHashCodeByBillId(billId);
+    }
+
+    public static String getSignatureByBillId(int billId) {
+        return BillDAO.getSignatureByBillId(billId);
+    }
+
+    public static void changeInfoBill(int id, String status) {
+        BillDAO.changeInfoBill(id, status);
+    }
+
+    public static void changeStatusByBillId(int billId, String status, String verifiedStatus) {
+        BillDAO.changeStatusByBillId(billId, status, verifiedStatus);
+    }
+
     public static void main(String[] args) {
         BillService billService = new BillService();
         System.out.println(billService.getBillById(1));

@@ -104,6 +104,10 @@ public class UserService {
         UserDAO.removeKey(keyId);
     }
 
+    public static String getPublicKeyByUserId(int userId) {
+        return UserDAO.getPublicKeyByUserId(userId);
+    }
+
 
 
     public static void main(String[] args) {

@@ -72,18 +72,28 @@
                             <option class="user-sub-input" selected="selected" value="IN_PROGRESS">Chờ xử lý</option>
                             <option class="user-sub-input" value="DONE">Đã nhận đơn</option>
                             <option class="user-sub-input" value="IN_SHIPPING">Đang giao hàng</option>
+                            <option class="user-sub-input" value="CANCEL">Đã bị hủy</option>
                         </c:when>
 
                         <c:when test="${bill.getStatus() == 'DONE'}">
                             <option class="user-sub-input" value="IN_PROGRESS">Chờ xử lý</option>
                             <option class="user-sub-input" selected="selected" value="DONE">Đã nhận đơn</option>
                             <option class="user-sub-input" value="IN_SHIPPING">Đang giao hàng</option>
+                            <option class="user-sub-input" value="CANCEL">Đã bị hủy</option>
+                        </c:when>
+
+                        <c:when test="${bill.getStatus() == 'IN_SHIPPING'}">
+                            <option class="user-sub-input" value="IN_PROGRESS">Chờ xử lý</option>
+                            <option class="user-sub-input" value="DONE">Đã nhận đơn</option>
+                            <option class="user-sub-input" selected="selected"  value="IN_SHIPPING">Đang giao hàng</option>
+                            <option class="user-sub-input" value="CANCEL">Đã bị hủy</option>
                         </c:when>
 
                         <c:otherwise>
                             <option class="user-sub-input" value="IN_PROGRESS">Chờ xử lý</option>
                             <option class="user-sub-input" value="DONE">Đã nhận đơn</option>
-                            <option class="user-sub-input" selected="selected"  value="IN_SHIPPING">Đang giao hàng</option>
+                            <option class="user-sub-input" value="IN_SHIPPING">Đang giao hàng</option>
+                            <option class="user-sub-input" selected="selected"  value="CANCEL">Đã bị hủy</option>
                         </c:otherwise>
                     </c:choose>
 

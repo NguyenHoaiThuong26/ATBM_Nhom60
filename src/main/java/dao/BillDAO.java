@@ -178,6 +178,28 @@ public class BillDAO {
         });
     }
 
+    public static String getHashCodeByBillId(int billId) {
+        return JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("SELECT hash_bill FROM bills WHERE id = :billId")
+                        .bind("billId", billId)
+                        .mapTo(String.class)
+                        .findOne()
+                        .orElse(null) // Trả về null nếu không tìm thấy kết quả
+        );
+    }
+
+
+    public static String getSignatureByBillId(int billId) {
+        return JDBIConnector.me().withHandle(handle ->
+                handle.createQuery("SELECT signature FROM bills WHERE id = :billId")
+                        .bind("billId", billId)
+                        .mapTo(String.class)
+                        .findOne()
+                        .orElse(null) // Trả về null nếu không tìm thấy kết quả
+        );
+    }
+
+
 
 
     public Bill getBillById(int id) {
@@ -191,6 +213,17 @@ public class BillDAO {
         return bill;
     }
 
+    public static void changeStatusByBillId(int billId, String status, String verifiedStatus) {
+        JDBIConnector.me().useHandle(handle ->
+                handle.createUpdate("UPDATE bills SET status = :status, verified_status = :verifiedStatus WHERE id = :billId")
+                        .bind("status", status)
+                        .bind("verifiedStatus", verifiedStatus)
+                        .bind("billId", billId)
+                        .execute()
+        );
+    }
+
+
 
     public static void changeInfoBill(int id, String status) {
         JDBIConnector.me().withHandle(handle ->
@@ -203,13 +236,16 @@ public class BillDAO {
         );
         System.out.println("DOne");
     }
+
+
     public static void main(String[] args) {
 //        Bill bill = BillDAO.getInstance().getBillById(1);
 //        System.out.println(bill);
 //        changeInfoBill(1, "SHIPPING");
-//        String bill = getBillAndBillDetailsToHash(110);
-        int billId = getLastestBill();
-        System.out.println(billId);
+        String bill = getBillAndBillDetailsToHash(2);
+//        int billId = getLastestBill();
+        System.out.println(bill);
+
     }
 
 }

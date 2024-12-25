@@ -59,9 +59,10 @@
         <form method="get" action="changeInfoBill" class="left">
             <input value="${bill.getId()}" hidden="hidden" name="billId">
 
-            <div class="user user-username">
+            <div class="id_container user user-username">
                 <label for="bill-id" class="user-title mgr-20">Mã hóa đơn:</label>
-                <input id="bill-id" name="bill-id" class="user-sub-input" value="${bill.getId()}"></input>
+                <input type="hidden" id="bill-id" name="bill-id" class="user-sub-input" value="${bill.getId()}"></input>
+                <p class="id_text">${bill.getId()}</p>
             </div>
 
             <div class="user user-role">
@@ -98,6 +99,32 @@
                     </c:choose>
 
                 </select>
+                <label class="user-title mgr-20">Trạng thái chữ ký: </label>
+                <select class="custom-select" name="signature-status">
+                    <c:choose>
+                        <c:when test="${bill.getVerified_status() == 'PENDING'}">
+                            <option class="user-sub-input" selected="selected" value="PENDING">Chờ xử lý</option>
+                            <option class="user-sub-input" value="VERIFIED">Đã xác thực</option>
+                            <option class="user-sub-input" value="MODIFIED">Đã bị chỉnh sửa</option>
+                        </c:when>
+
+                        <c:when test="${bill.getVerified_status() == 'VERIFIED'}">
+                            <option class="user-sub-input" value="PENDING">Chờ xử lý</option>
+                            <option class="user-sub-input" selected="selected" value="VERIFIED">Đã xác thực</option>
+                            <option class="user-sub-input" value="MODIFIED">Đã bị chỉnh sửa</option>
+                        </c:when>
+
+                        <c:otherwise>
+                            <option class="user-sub-input" value="PENDING">Chờ xử lý</option>
+                            <option class="user-sub-input" value="VERIFIED">Đã xác thực</option>
+                            <option class="user-sub-input" selected="selected" value="MODIFIED">Đã bị chỉnh sửa</option>
+                        </c:otherwise>
+                    </c:choose>
+
+                </select>
+
+
+
                 <button type="submit" class="add-role btn btn-submit btn-admin">Lưu</button>
             </div>
 

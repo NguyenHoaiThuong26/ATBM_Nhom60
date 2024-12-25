@@ -219,6 +219,18 @@ public class UserDAO {
             return validKeyCount > 0;
         });
     }
+    public static String getPublicKeyByUserId(int userId) {
+        return JDBIConnector.me().withHandle(handle -> {
+            return handle.createQuery(
+                            "SELECT public_key FROM public_keys WHERE id_user = :id_user AND is_valid = 0 LIMIT 1"
+                    )
+                    .bind("id_user", userId)
+                    .mapTo(String.class)
+                    .findOne()
+                    .orElse(null); // Trả về null nếu không tìm thấy khóa
+        });
+    }
+
 
     // Cập nhật thời gian hết hạn của key
     public static void updateExpiredKey(int userId) {

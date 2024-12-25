@@ -19,7 +19,6 @@ public class VerifyEmail {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication("@gmail.com", "");
-
             }
         });
 
@@ -28,9 +27,7 @@ public class VerifyEmail {
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("Verification Code");
-
             message.setText("Your verification code is: " + verificationCode);
-
             Transport.send(message);
             System.out.println("Verification code sent successfully.");
         } catch (MessagingException mex) {

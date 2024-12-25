@@ -200,13 +200,96 @@
         </div>
     </div>
 </section>
+<div id="privateKeyModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1);">
+    <h3>Nhập Private Key</h3>
+    <input type="text" id="privateKeyInput" name="privateKeyInput" placeholder="Private Key" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+    <button id="submitPrivateKey" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Xác nhận đặt hàng</button>
+    <button id="closeModal" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Đóng</button>
+</div>
+<div id="modalBackdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    // Modal trigger
+    document.getElementById('continue-checkout').addEventListener('click', function () {
+        // Show the modal when 'Continue Checkout' is clicked
+        document.getElementById('privateKeyModal').style.display = 'block';
+        document.getElementById('modalBackdrop').style.display = 'block';
+    });
+
+    // Close modal when 'Close' button is clicked
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('privateKeyModal').style.display = 'none';
+        document.getElementById('modalBackdrop').style.display = 'none';
+    });
+
+    // When 'Submit Private Key' button is clicked in modal
+    document.getElementById('submitPrivateKey').addEventListener('click', function () {
+        const privateKey = document.getElementById('privateKeyInput').value;
+
+        if (privateKey) {
+            // If private key is provided, close the modal
+            document.getElementById('privateKeyModal').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+
+            // Trigger the AJAX request to submit the form data
+            submitFormData(privateKey);
+        } else {
+            alert('Vui lòng nhập Private Key.');
+        }
+    });
+
+    // Function to submit form data via AJAX
+    function submitFormData(privateKey) {
+        // Collect form data
+        const name = $('input[name="name"]').val().trim();
+        const phone = $('input[name="phone"]').val().trim();
+        const address = $('input[name="address"]').val().trim();
+        const payment = $('#COD').is(':checked') ? 'COD' : 'BANK';
+
+        // Validate required fields
+        if (name === '' || phone === '' || address === '') {
+            alert('Vui lòng điền đầy đủ thông tin');
+            return;
+        }
+
+        // Add private key to data
+        const data = {
+            name: name,
+            phone: phone,
+            address: address,
+            payment: payment,
+            privateKeyInput: privateKey  // Include private key
+        };
+
+        // Disable the button while processing
+        $('#continue-checkout').prop('disabled', true).text('Đang xử lý...');
+
+        // Send the data via AJAX
+        $.ajax({
+            url: '<%= request.getContextPath()%>/bill',  // Make sure this is the correct URL
+            type: 'POST',
+            data: data,
+            success: function (response) {
+                alert('Đơn hàng đã được xác nhận');
+                // Redirect or show success message
+            },
+            error: function (error) {
+                console.error('Lỗi khi gửi dữ liệu:', error);
+                alert('Đã xảy ra lỗi trong quá trình đặt hàng. Vui lòng thử lại.');
+            },
+            complete: function () {
+                // Re-enable the button after completion
+                $('#continue-checkout').prop('disabled', false).text('Tiếp tục thanh toán');
+            }
+        });
+    }
+
+    // jQuery for checkbox style toggling
     $(document).ready(function () {
-        // Sự kiện khi click vào input[type="checkbox"]
         $('input[type="checkbox"]').change(function () {
             if ($(this).is(':checked')) {
                 $(this).parent("label").addClass("checked");
@@ -215,7 +298,7 @@
             }
         });
 
-        // Sự kiện khi click vào label
+        // Handle payment method selection
         $('.check-out-cod').click(function () {
             $('#COD').prop('checked', true);
             $('#BANK').prop('checked', false);
@@ -229,52 +312,8 @@
             $(this).addClass("checked");
             $('.check-out-cod').removeClass("checked");
         });
-
-
-        $('#continue-checkout').click(function () {
-            if ($('#COD').is(':checked') || $('#BANK').is(':checked')) {
-                const name = $('input[name="name"]').val().trim();
-                const phone = $('input[name="phone"]').val().trim();
-                const address = $('input[name="address"]').val().trim();
-                const payment = $('#COD').is(':checked') ? 'COD' : 'BANK';
-
-                if(name == '' || phone == '' || address == ''){
-                    alert('Vui lòng điền đầy đủ thông tin');
-                    return;
-                }
-
-                const data = {
-                    name: name,
-                    phone: phone,
-                    address: address,
-                    payment: payment
-                };
-
-                $.ajax({
-                    url: '<%= request.getContextPath()%>/bill',
-                    type: 'POST',
-                    data: data,
-                    success: function (response) {
-                        alert('Thêm vào giỏ hàng thành công');
-                        // direct to cart page
-                        window.location.href = '<%= request.getContextPath()%>/verifyOrder.jsp';
-                    },
-                    error: function (error) {
-                        console.error('Lỗi khi gửi dữ liệu:', error);
-                        alert('Đã xảy ra lỗi trong quá trình đặt hàng. Vui lòng thử lại.');
-                    },
-                    complete: function () {
-                        // Enable button sau khi hoàn thành
-                        $('#continue-checkout').prop('disabled', false).text('Tiếp tục thanh toán');
-                    }
-                });
-
-                console.log(data);
-            } else {
-                alert("Vui lòng chọn hình thức thanh toán");
-            }
-        });
     });
 </script>
-</body>
+
+<</body>
 </html>

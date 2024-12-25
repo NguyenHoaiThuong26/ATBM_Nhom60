@@ -62,8 +62,14 @@ public class LoginController extends HttpServlet {
                 return;
             }
             if (user.getStatus() != 0) {
+                // Lưu thông tin user vào session
                 session.setAttribute("auth", user);
+
+                // Lưu id_user vào session
+                int id_user = user.getId();
+                session.setAttribute("userId", id_user);
                 resp.sendRedirect("./index.jsp");
+
                 return;
             }
             if(user.getStatus() == -1) {

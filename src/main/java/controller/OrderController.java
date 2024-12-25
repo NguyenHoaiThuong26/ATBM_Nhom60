@@ -3,6 +3,7 @@ package controller;
 import bean.Order;
 import com.google.gson.Gson;
 import dao.OrderDAO;
+import dao.UserDAO;
 import org.jetbrains.annotations.NotNull;
 import service.OrderSevice;
 
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.IOException;
 import java.util.Base64;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 @WebServlet("/order")
 public class OrderController extends HttpServlet {
-
+UserDAO userDAO =new UserDAO()  ;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Lấy thông tin đơn hàng từ query string
@@ -28,6 +30,14 @@ public class OrderController extends HttpServlet {
             resp.getWriter().write("{\"error\": \"Missing orderHash parameter.\"}");
             return;
         }
+        HttpSession session = req.getSession();
+
+// Lấy ID của session
+       Integer sessionId = Integer.valueOf(session.getId());
+       String publicKey = userDAO.getPublicKeyByUserId(sessionId);
+        System.out.println(publicKey);
+
+// Chuyển thành int bằng hashCode()
 
         // Truy vấn thông tin đơn hàng từ database
         Order order = OrderDAO.getOrder(orderHash);
